@@ -1,0 +1,465 @@
+//
+// time: Fri May 10 20:35:47 2013
+//
+// version: 3.2.0 (format), 4.4.4 (DX)
+//
+//
+// MODULE main
+//
+// comment: In this visualization, a general purpose visual program has been used to visualize scattered two-dimensional data. The  points have been connected using the Connect module. Glyphs of the original scattered points are also shown. Contour lines are also drawn on the connected surface.
+// comment: 
+// comment: You can use the control panel to change the contour line values, reset the contour line values back to the default if you have modified them, or reset the image camera (if, for example you have modified the view, or have brought in a new data set).
+// comment: 
+// comment: If you want to use this program for other data sets, choose Open Visual Program Editor from the Windows menu, and then save it using the File menu Save As option in the VPE.
+// page assignment: image	order=4, windowed=0, showing=0
+// page assignment: import	order=3, windowed=0, showing=1
+// page assignment: rubber	order=2, windowed=0, showing=0
+// workspace: width = 776, height = 627
+// layout: snap = 0, width = 50, height = 50, align = NN
+//
+macro main(
+) -> (
+) {
+    // 
+    // node ImportSpreadsheet[2]: x = 143, y = 98, inputs = 10, label = ImportSpreadsheet
+    // input[1]: defaulting = 0, visible = 1, type = 32, value = "display.input"
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = ","
+    // input[3]: defaulting = 0, visible = 0, type = 16777248, value = {"X","Y","Intensity","Time"}
+    // page group: import
+    //
+main_ImportSpreadsheet_2_out_1,
+main_ImportSpreadsheet_2_out_2 = 
+    ImportSpreadsheet(
+    main_ImportSpreadsheet_2_in_1,
+    main_ImportSpreadsheet_2_in_2,
+    main_ImportSpreadsheet_2_in_3,
+    main_ImportSpreadsheet_2_in_4,
+    main_ImportSpreadsheet_2_in_5,
+    main_ImportSpreadsheet_2_in_6,
+    main_ImportSpreadsheet_2_in_7,
+    main_ImportSpreadsheet_2_in_8,
+    main_ImportSpreadsheet_2_in_9,
+    main_ImportSpreadsheet_2_in_10
+    ) [instance: 2, cache: 1];
+    // 
+    // node Extract[2]: x = 93, y = 255, inputs = 2, label = ExtractX
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "X"
+    // page group: import
+    //
+main_Extract_2_out_1 = 
+    Extract(
+    main_ImportSpreadsheet_2_out_1,
+    main_Extract_2_in_2
+    ) [instance: 2, cache: 1];
+    // 
+    // node Extract[3]: x = 163, y = 258, inputs = 2, label = ExtractY
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "Y"
+    // page group: import
+    //
+main_Extract_3_out_1 = 
+    Extract(
+    main_ImportSpreadsheet_2_out_1,
+    main_Extract_3_in_2
+    ) [instance: 3, cache: 1];
+    // 
+    // node Compute[1]: x = 135, y = 350, inputs = 4, label = Compute
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "[$0,$1]"
+    // page group: import
+    // expression: value = [a,b]
+    // name[2]: value = a
+    // name[3]: value = b
+    // name[4]: value = c
+    //
+main_Compute_1_out_1 = 
+    Compute(
+    main_Compute_1_in_1,
+    main_Extract_2_out_1,
+    main_Extract_3_out_1,
+    main_Compute_1_in_4
+    ) [instance: 1, cache: 1];
+    // 
+    // node Extract[4]: x = 239, y = 260, inputs = 2, label = ExtractIntensity
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "Intensity"
+    // page group: import
+    //
+main_Extract_4_out_1 = 
+    Extract(
+    main_ImportSpreadsheet_2_out_1,
+    main_Extract_4_in_2
+    ) [instance: 4, cache: 1];
+    // 
+    // node Construct[5]: x = 152, y = 435, inputs = 4, label = Construct
+    // input[2]: visible = 0
+    // input[3]: visible = 0
+    // input[4]: defaulting = 1, visible = 1, type = 16777248, value = {"Intensity"}
+    // page group: import
+    //
+main_Construct_5_out_1 = 
+    Construct(
+    main_Compute_1_out_1,
+    main_Construct_5_in_2,
+    main_Construct_5_in_3,
+    main_Extract_4_out_1
+    ) [instance: 5, cache: 1];
+    // 
+    // node Transmitter[50]: x = 160, y = 565, inputs = 1, label = data_viz
+    // page group: import
+    //
+data_viz = main_Construct_5_out_1;
+    // 
+    // node Receiver[63]: x = 160, y = 85, inputs = 1, label = data_viz
+    // page group: rubber
+    //
+main_Receiver_63_out_1[cache: 0] = data_viz;
+    // 
+    // node Connect[2]: x = 158, y = 187, inputs = 3, label = Connect
+    // input[2]: defaulting = 1, visible = 0, type = 32, value = NULL
+    // input[3]: visible = 0
+    // page group: rubber
+    //
+main_Connect_2_out_1 = 
+    Connect(
+    main_Receiver_63_out_1,
+    main_Connect_2_in_2,
+    main_Connect_2_in_3
+    ) [instance: 2, cache: 1];
+    // 
+    // node RubberSheet[2]: x = 141, y = 278, inputs = 4, label = RubberSheet
+    // input[2]: defaulting = 1, visible = 0, type = 5, value = NULL
+    // page group: rubber
+    //
+main_RubberSheet_2_out_1 = 
+    RubberSheet(
+    main_Connect_2_out_1,
+    main_RubberSheet_2_in_2,
+    main_RubberSheet_2_in_3,
+    main_RubberSheet_2_in_4
+    ) [instance: 2, cache: 1];
+    // 
+    // node Collect[4]: x = 178, y = 395, inputs = 3, label = Collect
+    // page group: rubber
+    //
+main_Collect_4_out_1 = 
+    Collect(
+    main_RubberSheet_2_out_1,
+    main_Collect_4_in_2,
+    main_Collect_4_in_3
+    ) [instance: 4, cache: 1];
+    // 
+    // node Transmitter[51]: x = 179, y = 490, inputs = 1, label = data_view
+    // page group: rubber
+    //
+data_view = main_Collect_4_out_1;
+    // 
+    // node Receiver[61]: x = 155, y = 157, inputs = 1, label = data_view
+    // page group: image
+    //
+main_Receiver_61_out_1[cache: 0] = data_view;
+    // 
+    // node ImportSpreadsheet[1]: x = 571, y = 120, inputs = 10, label = ImportSpreadsheet
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "annotation.input"
+    // input[2]: defaulting = 0, visible = 0, type = 32, value = ";"
+    // input[3]: defaulting = 0, visible = 0, type = 16777248, value = {"Info", "Data"}
+    // input[5]: defaulting = 1, visible = 0, type = 16777248, value = {"Info","Data"}
+    // input[9]: defaulting = 1, visible = 0, type = 1, value = 0
+    // input[10]: defaulting = 0, visible = 0, type = 1, value = 1
+    // page group: import
+    //
+main_ImportSpreadsheet_1_out_1,
+main_ImportSpreadsheet_1_out_2 = 
+    ImportSpreadsheet(
+    main_ImportSpreadsheet_1_in_1,
+    main_ImportSpreadsheet_1_in_2,
+    main_ImportSpreadsheet_1_in_3,
+    main_ImportSpreadsheet_1_in_4,
+    main_ImportSpreadsheet_1_in_5,
+    main_ImportSpreadsheet_1_in_6,
+    main_ImportSpreadsheet_1_in_7,
+    main_ImportSpreadsheet_1_in_8,
+    main_ImportSpreadsheet_1_in_9,
+    main_ImportSpreadsheet_1_in_10
+    ) [instance: 1, cache: 1];
+    // 
+    // node Extract[1]: x = 578, y = 226, inputs = 2, label = Extract
+    // input[2]: defaulting = 0, visible = 0, type = 32, value = "Info"
+    // page group: import
+    //
+main_Extract_1_out_1 = 
+    Extract(
+    main_ImportSpreadsheet_1_out_1,
+    main_Extract_1_in_2
+    ) [instance: 1, cache: 1];
+    // 
+    // node Transmitter[52]: x = 567, y = 339, inputs = 1, label = Annotation
+    // page group: import
+    //
+Annotation = main_Extract_1_out_1;
+    // 
+    // node Receiver[64]: x = 253, y = 156, inputs = 1, label = Annotation
+    // page group: image
+    //
+main_Receiver_64_out_1[cache: 0] = Annotation;
+    // 
+    // node Caption[1]: x = 261, y = 222, inputs = 9, label = Caption
+    // input[1]: defaulting = 1, visible = 1, type = 32, value = "Test"
+    // input[2]: defaulting = 0, visible = 0, type = 8, value = [0.1,0.1]
+    // input[6]: defaulting = 0, visible = 0, type = 1, value = 25
+    // page group: image
+    //
+main_Caption_1_out_1 = 
+    Caption(
+    main_Receiver_64_out_1,
+    main_Caption_1_in_2,
+    main_Caption_1_in_3,
+    main_Caption_1_in_4,
+    main_Caption_1_in_5,
+    main_Caption_1_in_6,
+    main_Caption_1_in_7,
+    main_Caption_1_in_8,
+    main_Caption_1_in_9
+    ) [instance: 1, cache: 1];
+    // 
+    // node Collect[2]: x = 177, y = 290, inputs = 2, label = Collect
+    // page group: image
+    //
+main_Collect_2_out_1 = 
+    Collect(
+    main_Receiver_61_out_1,
+    main_Caption_1_out_1
+    ) [instance: 2, cache: 1];
+    // 
+    // node Value[1]: x = 408, y = 224, inputs = 0, label = Value
+    // output[1]: visible = 1, type = 29, value = 0
+    // page group: image
+    //
+    // 
+    // node AutoCamera[2]: x = 189, y = 396, inputs = 9, label = AutoCamera
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "diagonal"
+    // input[4]: defaulting = 0, visible = 0, type = 1, value = 1000
+    // input[5]: defaulting = 0, visible = 0, type = 5, value = 0.75
+    // input[6]: defaulting = 0, visible = 0, type = 8, value = [0 0 1]
+    // input[7]: defaulting = 0, visible = 0, type = 3, value = 1
+    // input[8]: defaulting = 1, visible = 1, type = 5, value = NULL
+    // input[9]: defaulting = 0, visible = 0, type = 32, value = "black"
+    // page group: image
+    //
+main_AutoCamera_2_out_1 = 
+    AutoCamera(
+    main_Collect_2_out_1,
+    main_AutoCamera_2_in_2,
+    main_AutoCamera_2_in_3,
+    main_AutoCamera_2_in_4,
+    main_AutoCamera_2_in_5,
+    main_AutoCamera_2_in_6,
+    main_AutoCamera_2_in_7,
+    main_Value_1_out_1,
+    main_AutoCamera_2_in_9
+    ) [instance: 2, cache: 1];
+    // 
+    // node AutoAxes[1]: x = 115, y = 476, inputs = 19, label = AutoAxes
+    // input[3]: defaulting = 0, visible = 1, type = 16777248, value = {"X","Y","Intensity"}
+    // input[4]: defaulting = 0, visible = 0, type = 1, value = 15
+    // input[5]: defaulting = 1, visible = 0, type = 16777224, value = NULL
+    // input[6]: defaulting = 1, visible = 0, type = 3, value = 1
+    // input[7]: defaulting = 0, visible = 0, type = 3, value = 1
+    // input[9]: defaulting = 0, visible = 0, type = 3, value = 1
+    // input[12]: defaulting = 0, visible = 0, type = 5, value = 0.5
+    // page group: image
+    //
+main_AutoAxes_1_out_1 = 
+    AutoAxes(
+    main_Collect_2_out_1,
+    main_AutoCamera_2_out_1,
+    main_AutoAxes_1_in_3,
+    main_AutoAxes_1_in_4,
+    main_AutoAxes_1_in_5,
+    main_AutoAxes_1_in_6,
+    main_AutoAxes_1_in_7,
+    main_AutoAxes_1_in_8,
+    main_AutoAxes_1_in_9,
+    main_AutoAxes_1_in_10,
+    main_AutoAxes_1_in_11,
+    main_AutoAxes_1_in_12,
+    main_AutoAxes_1_in_13,
+    main_AutoAxes_1_in_14,
+    main_AutoAxes_1_in_15,
+    main_AutoAxes_1_in_16,
+    main_AutoAxes_1_in_17,
+    main_AutoAxes_1_in_18,
+    main_AutoAxes_1_in_19
+    ) [instance: 1, cache: 1];
+    // 
+    // node Render[1]: x = 192, y = 572, inputs = 3, label = Render
+    // page group: image
+    //
+main_Render_1_out_1 = 
+    Render(
+    main_AutoAxes_1_out_1,
+    main_AutoCamera_2_out_1,
+    main_Render_1_in_3
+    ) [instance: 1, cache: 1];
+    // 
+    // node Display[1]: x = 192, y = 663, inputs = 8, label = Display
+    // page group: image
+    // depth: value = 24
+    // window: position = (0.2698,0.1908), size = 0.5281x0.6600, screen = 0
+    //
+main_Display_1_out_1[cache: 2] = 
+    Display(
+    main_Render_1_out_1,
+    main_Display_1_in_2,
+    main_Display_1_in_3,
+    main_Display_1_in_4,
+    main_Display_1_in_5,
+    main_Display_1_in_6,
+    main_Display_1_in_7,
+    main_Display_1_in_8
+    ) [instance: 1, cache: 1];
+    // 
+    // node Echo[2]: x = 348, y = 192, inputs = 2, label = Echo
+    // page group: import
+    //
+    Echo(
+    main_ImportSpreadsheet_2_out_2,
+    main_Echo_2_in_2
+    ) [instance: 2, cache: 1];
+    // 
+    // node WriteImage[1]: x = 279, y = 660, inputs = 4, label = WriteImage
+    // input[2]: defaulting = 0, visible = 0, type = 32, value = "display"
+    // input[3]: defaulting = 0, visible = 0, type = 32, value = "tiff"
+    // input[4]: visible = 0
+    // page group: image
+    //
+    WriteImage(
+    main_Render_1_out_1,
+    main_WriteImage_1_in_2,
+    main_WriteImage_1_in_3,
+    main_WriteImage_1_in_4
+    ) [instance: 1, cache: 1];
+    //
+    // decorator Annotate	pos=(51,26) size=725x28 style(Label), font=bold, value = <NULL>
+    // annotation user_begin: 106
+    // annotation user: This page imports the data and builds the data field with the x/y coordinates and the wave field intensity
+    // annotation user_end: <NULL>
+    // page group: import
+    //
+    // decorator Annotate	pos=(49,55) size=501x44 style(Label), font=bold, value = <NULL>
+    // annotation user_begin: 87
+    // annotation user: Create the visualisation by collecting the wave field and the annotation
+    // annotation user: into one view.
+    // annotation user_end: <NULL>
+    // page group: image
+    //
+    // decorator Annotate	pos=(84,36) size=163x28 style(Label), value = <NULL>
+    // annotation user_begin: 21
+    // annotation user: Create a rubber sheet
+    // annotation user_end: <NULL>
+    // page group: rubber
+// network: end of macro body
+}
+main_ImportSpreadsheet_2_in_1 = "display.input";
+main_ImportSpreadsheet_2_in_2 = ",";
+main_ImportSpreadsheet_2_in_3 = {"X","Y","Intensity","Time"};
+main_ImportSpreadsheet_2_in_4 = NULL;
+main_ImportSpreadsheet_2_in_5 = NULL;
+main_ImportSpreadsheet_2_in_6 = NULL;
+main_ImportSpreadsheet_2_in_7 = NULL;
+main_ImportSpreadsheet_2_in_8 = NULL;
+main_ImportSpreadsheet_2_in_9 = NULL;
+main_ImportSpreadsheet_2_in_10 = NULL;
+main_ImportSpreadsheet_2_out_1 = NULL;
+main_ImportSpreadsheet_2_out_2 = NULL;
+main_Extract_2_in_2 = "X";
+main_Extract_2_out_1 = NULL;
+main_Extract_3_in_2 = "Y";
+main_Extract_3_out_1 = NULL;
+main_Compute_1_in_1 = "[$0,$1]";
+main_Compute_1_in_4 = NULL;
+main_Compute_1_out_1 = NULL;
+main_Extract_4_in_2 = "Intensity";
+main_Extract_4_out_1 = NULL;
+main_Construct_5_in_2 = NULL;
+main_Construct_5_in_3 = NULL;
+main_Construct_5_out_1 = NULL;
+main_Transmitter_50_out_1 = NULL;
+main_Receiver_63_out_1 = NULL;
+main_Connect_2_in_2 = NULL;
+main_Connect_2_in_3 = NULL;
+main_Connect_2_out_1 = NULL;
+main_RubberSheet_2_in_2 = NULL;
+main_RubberSheet_2_in_3 = NULL;
+main_RubberSheet_2_in_4 = NULL;
+main_RubberSheet_2_out_1 = NULL;
+main_Collect_4_in_2 = NULL;
+main_Collect_4_in_3 = NULL;
+main_Collect_4_out_1 = NULL;
+main_Transmitter_51_out_1 = NULL;
+main_Receiver_61_out_1 = NULL;
+main_ImportSpreadsheet_1_in_1 = "annotation.input";
+main_ImportSpreadsheet_1_in_2 = ";";
+main_ImportSpreadsheet_1_in_3 = {"Info", "Data"};
+main_ImportSpreadsheet_1_in_4 = NULL;
+main_ImportSpreadsheet_1_in_5 = NULL;
+main_ImportSpreadsheet_1_in_6 = NULL;
+main_ImportSpreadsheet_1_in_7 = NULL;
+main_ImportSpreadsheet_1_in_8 = NULL;
+main_ImportSpreadsheet_1_in_9 = NULL;
+main_ImportSpreadsheet_1_in_10 = 1;
+main_ImportSpreadsheet_1_out_1 = NULL;
+main_Extract_1_in_2 = "Info";
+main_Extract_1_out_1 = NULL;
+main_Transmitter_52_out_1 = NULL;
+main_Receiver_64_out_1 = NULL;
+main_Caption_1_in_2 = [0.1,0.1];
+main_Caption_1_in_3 = NULL;
+main_Caption_1_in_4 = NULL;
+main_Caption_1_in_5 = NULL;
+main_Caption_1_in_6 = 25;
+main_Caption_1_in_7 = NULL;
+main_Caption_1_in_8 = NULL;
+main_Caption_1_in_9 = NULL;
+main_Caption_1_out_1 = NULL;
+main_Collect_2_out_1 = NULL;
+main_Value_1_out_1 = 0;
+main_AutoCamera_2_in_2 = "diagonal";
+main_AutoCamera_2_in_3 = NULL;
+main_AutoCamera_2_in_4 = 1000;
+main_AutoCamera_2_in_5 = 0.75;
+main_AutoCamera_2_in_6 = [0 0 1];
+main_AutoCamera_2_in_7 = 1;
+main_AutoCamera_2_in_9 = "black";
+main_AutoCamera_2_out_1 = NULL;
+main_AutoAxes_1_in_3 = {"X","Y","Intensity"};
+main_AutoAxes_1_in_4 = 15;
+main_AutoAxes_1_in_5 = NULL;
+main_AutoAxes_1_in_6 = NULL;
+main_AutoAxes_1_in_7 = 1;
+main_AutoAxes_1_in_8 = NULL;
+main_AutoAxes_1_in_9 = 1;
+main_AutoAxes_1_in_10 = NULL;
+main_AutoAxes_1_in_11 = NULL;
+main_AutoAxes_1_in_12 = 0.5;
+main_AutoAxes_1_in_13 = NULL;
+main_AutoAxes_1_in_14 = NULL;
+main_AutoAxes_1_in_15 = NULL;
+main_AutoAxes_1_in_16 = NULL;
+main_AutoAxes_1_in_17 = NULL;
+main_AutoAxes_1_in_18 = NULL;
+main_AutoAxes_1_in_19 = NULL;
+main_AutoAxes_1_out_1 = NULL;
+main_Render_1_in_3 = NULL;
+main_Render_1_out_1 = NULL;
+main_Display_1_in_2 = NULL;
+main_Display_1_in_3 = "X24,,";
+main_Display_1_in_4 = NULL;
+main_Display_1_in_5 = NULL;
+main_Display_1_in_6 = NULL;
+main_Display_1_in_7 = NULL;
+main_Display_1_in_8 = NULL;
+main_Echo_2_in_2 = NULL;
+main_WriteImage_1_in_2 = "display";
+main_WriteImage_1_in_3 = "tiff";
+main_WriteImage_1_in_4 = NULL;
+Executive("product version 4 4 4");
+$sync
+main();
